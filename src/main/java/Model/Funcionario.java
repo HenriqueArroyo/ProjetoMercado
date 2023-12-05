@@ -1,6 +1,6 @@
 package Model;
 
-public class Funcionarios {
+public class Funcionario {
     
 
     private String nome;
@@ -39,7 +39,7 @@ public class Funcionarios {
         this.telefone = telefone;
     }
 
-    public Funcionarios(String nome, String cpf, String senha, String idade, String telefone) {
+    public Funcionario(String nome, String cpf, String senha, String idade, String telefone) {
         this.nome = nome;
         this.cpf = cpf;
         this.senha = senha;
@@ -47,7 +47,7 @@ public class Funcionarios {
         this.telefone = telefone;
        
     }
-    public void add(Funcionarios funcionarios) {
+    public void add(Funcionario funcionarios) {
     }
 
     
