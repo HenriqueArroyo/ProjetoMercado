@@ -8,7 +8,6 @@ public class Funcionarios {
     private String senha;
     private String idade;
     private String telefone;
-    private String email;
     public String getNome() {
         return nome;
     }
@@ -39,19 +38,14 @@ public class Funcionarios {
     public void setTelefone(String telefone) {
         this.telefone = telefone;
     }
-    public String getEmail() {
-        return email;
-    }
-    public void setEmail(String email) {
-        this.email = email;
-    }
-    public Funcionarios(String nome, String cpf, String senha, String idade, String telefone, String email) {
+
+    public Funcionarios(String nome, String cpf, String senha, String idade, String telefone) {
         this.nome = nome;
         this.cpf = cpf;
         this.senha = senha;
         this.idade = idade;
         this.telefone = telefone;
-        this.email = email;
+       
     }
     public void add(Funcionarios funcionarios) {
     }

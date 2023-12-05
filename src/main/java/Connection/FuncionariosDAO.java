@@ -27,7 +27,7 @@ public class FuncionariosDAO {
     // Criar a Tabela no banco de dados
     public void criaTabela() {
 
-        String sql = "CREATE TABLE IF NOT EXISTS funcionarios_mercado (NOME VARCHAR(255),TELEFONE VARCHAR(255),CIDADE VARCHAR(255),CPF VARCHAR(255) PRIMARY KEY, SENHA VARCHAR(255), IDADE VARCHAR(255), EMAIL VARCHAR(255) )";
+        String sql = "CREATE TABLE IF NOT EXISTS funcionarios_mercado (NOME VARCHAR(255), CPF VARCHAR(255) PRIMARY KEY, SENHA VARCHAR(255), IDADE VARCHAR(255), TELEFONE VARCHAR(255) )";
         try (Statement stmt = this.connection.createStatement()) {
             stmt.execute(sql);
             System.out.println("Tabela criada com sucesso.");
@@ -57,8 +57,7 @@ public class FuncionariosDAO {
                     rs.getString("nome"),
                     rs.getString("telefone"),
                     rs.getString ("senha"),
-                    rs.getString ("idade"),
-                    rs.getString ("email")
+                    rs.getString ("idade")
                 );
                 funcionarios.add(funcionarios); 
             }
@@ -71,10 +70,10 @@ public class FuncionariosDAO {
     }
 
     //Cadastrar Carro no banco
-    public void cadastrar(String cpf, String nome, String telefone, String senha, String idade, String email) {
+    public void cadastrar(String cpf, String nome, String telefone, String senha, String idade) {
         PreparedStatement stmt = null;
         // Define a instrução SQL parametrizada para cadastrar na tabela
-        String sql = "INSERT INTO funcionarios_mercado (cpf, nome, telefone, senha, idade, email) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO funcionarios_mercado (cpf, nome, telefone, senha, idade ) VALUES (?, ?, ?, ?, ?)";
         try {
             stmt = connection.prepareStatement(sql);
             stmt.setString(1, cpf);
@@ -82,7 +81,6 @@ public class FuncionariosDAO {
             stmt.setString(3, telefone);
             stmt.setString(4, senha);
             stmt.setString(5, idade);
-            stmt.setString(6, email);
             stmt.executeUpdate();
             System.out.println("Dados inseridos com sucesso");
             JOptionPane.showMessageDialog(null, "Funcionário cadastrado com Sucesso✅");
@@ -98,19 +96,18 @@ public class FuncionariosDAO {
     }
 
     //Atualizar dados no banco
-    public void atualizar(String cpf, String nome, String telefone, String senha, String idade, String email) {
+    public void atualizar(String cpf, String nome, String telefone, String senha, String idade) {
         PreparedStatement stmt = null;
         // Define a instrução SQL parametrizada para atualizar dados pela placa
-        String sql = "UPDATE funcionarios_mercado SET nome = ?, telefone = ?, senha = ?, idade = ?, email = ?,   WHERE cpf = ?";
+        String sql = "UPDATE funcionarios_mercado SET nome = ?, telefone = ?, senha = ?, idade = ?,    WHERE cpf = ?";
         try {
             stmt = connection.prepareStatement(sql);
             stmt.setString(1, nome);
-            stmt.setString(2, telefone);
-            stmt.setString(3, senha);
-            stmt.setString(4, idade);
-            stmt.setString(5, email);
+            stmt.setString(2, senha);
+            stmt.setString(3, idade);
+            stmt.setString(4, telefone);
             //placa é chave primaria não pode ser alterada.
-            stmt.setString(6, cpf);
+            stmt.setString(5, cpf);
             
             stmt.executeUpdate();
             

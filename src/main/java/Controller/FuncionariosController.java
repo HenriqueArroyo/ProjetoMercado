@@ -27,20 +27,20 @@ public class FuncionariosController {
         funcionarios = new FuncionariosDAO().listarTodos(); // Obtém os carros atualizados do banco de dados
         for (Funcionarios funcionarios : funcionarios) {
             // Adiciona os dados de cada carro como uma nova linha na tabela Swing
-            tableModel.addRow(new Object[] { funcionarios.getNome(), funcionarios.getCpf(), funcionarios.getSenha(), funcionarios.getIdade(), funcionarios.getEmail(), funcionarios.getTelefone() });
+            tableModel.addRow(new Object[] { funcionarios.getNome(), funcionarios.getCpf(), funcionarios.getSenha(), funcionarios.getIdade(), funcionarios.getTelefone() });
         }
     }
 
     // Método para cadastrar um novo carro no banco de dados
-    public void cadastrar(String cpf, String nome, String telefone, String senha, String idade, String email) {
-        new FuncionariosDAO().cadastrar(cpf, nome, telefone, senha, idade, email);
+    public void cadastrar(String cpf, String nome, String telefone, String senha, String idade) {
+        new FuncionariosDAO().cadastrar(cpf, nome, telefone, senha, idade);
         // Chama o método de cadastro no banco de dados
         atualizarTabela(); // Atualiza a tabela de exibição após o cadastro
     }
 
     // Método para atualizar os dados de um carro no banco de dados
-    public void atualizar(String cpf, String nome, String telefone, String senha, String idade, String email) {
-        new FuncionariosDAO().atualizar(cpf, nome, telefone, senha, idade, email);
+    public void atualizar(String cpf, String nome, String telefone, String senha, String idade) {
+        new FuncionariosDAO().atualizar(cpf, nome, telefone, senha, idade);
         // Chama o método de atualização no banco de dados
         atualizarTabela(); // Atualiza a tabela de exibição após a atualização
     }
