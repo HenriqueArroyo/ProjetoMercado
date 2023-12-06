@@ -74,8 +74,8 @@ public class JanelaFuncionarios extends JPanel {
 
                 if (isValidDate(dataNascimento)) {
                     // Lógica para cadastro
-                    FuncionariosController operacoes = new FuncionariosController(nome, cpf, senha);
-                    operacoes.cadastrarFuncionario(dataNascimento, telefone);
+                    FuncionariosController operacoes = new FuncionariosController(nome, cpf, senha, dataNascimento, telefone);
+                
 
                     // Limpar os campos após o cadastro
                     nomeField.setText("");
@@ -140,7 +140,7 @@ public class JanelaFuncionarios extends JPanel {
         funcionarios = new FuncionariosDAO().listarTodos();
         for (Funcionario funcionario : funcionarios) {
             tableModel.addRow(new Object[]{funcionario.getNome(), funcionario.getCpf(), funcionario.getSenha(),
-                    funcionario.getDataNascimento(), funcionario.getTelefone()});
+                    funcionario.getdataNascimento(), funcionario.getTelefone()});
         }
     }
 
