@@ -8,7 +8,7 @@ import Connection.FuncionariosDAO;
 import Model.Funcionario;
 
 public class FuncionariosController {
-    
+
     // Atributos
     private List<Funcionario> funcionarios; // Lista de objetos Carros
     private DefaultTableModel tableModel; // Modelo da tabela Swing para exibição dos dados
@@ -27,7 +27,8 @@ public class FuncionariosController {
         funcionarios = new FuncionariosDAO().listarTodos(); // Obtém os carros atualizados do banco de dados
         for (Funcionario funcionarios : funcionarios) {
             // Adiciona os dados de cada carro como uma nova linha na tabela Swing
-            tableModel.addRow(new Object[] { funcionarios.getNome(), funcionarios.getCpf(), funcionarios.getSenha(), funcionarios.getIdade(), funcionarios.getTelefone() });
+            tableModel.addRow(new Object[] { funcionarios.getNome(), funcionarios.getCpf(), funcionarios.getSenha(),
+                    funcionarios.getdataNascimento(), funcionarios.getTelefone() });
         }
     }
 
@@ -47,9 +48,16 @@ public class FuncionariosController {
 
     // Método para apagar um carro do banco de dados
     public void apagar(String cpf) {
-        new FuncionariosDAO().apagar(cpf); 
+        new FuncionariosDAO().apagar(cpf);
         // Chama o método de exclusão no banco de dados
         atualizarTabela(); // Atualiza a tabela de exibição após a exclusão
     }
 
+    public void formatData(String dataNascimento) {
+     
+
+
+
+        
+    }
 }

@@ -6,7 +6,7 @@ public class Funcionario {
     private String nome;
     private String cpf;
     private String senha;
-    private String idade;
+    private String dataNascimento;
     private String telefone;
     public String getNome() {
         return nome;
@@ -26,11 +26,11 @@ public class Funcionario {
     public void setSenha(String senha) {
         this.senha = senha;
     }
-    public String getIdade() {
-        return idade;
+    public String getdataNascimento() {
+        return dataNascimento;
     }
-    public void setIdade(String idade) {
-        this.idade = idade;
+    public void setdataNascimento(String dataNascimento) {
+        this.dataNascimento = dataNascimento;
     }
     public String getTelefone() {
         return telefone;
@@ -39,11 +39,11 @@ public class Funcionario {
         this.telefone = telefone;
     }
 
-    public Funcionario(String nome, String cpf, String senha, String idade, String telefone) {
+    public Funcionario(String nome, String cpf, String senha, String dataNascimento, String telefone) {
         this.nome = nome;
         this.cpf = cpf;
         this.senha = senha;
-        this.idade = idade;
+        this.dataNascimento = dataNascimento;
         this.telefone = telefone;
        
     }
