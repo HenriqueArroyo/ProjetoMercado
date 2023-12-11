@@ -1,30 +1,35 @@
 package Model;
 
 public class Estoque {
-    private String produto, qtd, id, preco, desconto;
+    // Atributos
+    int id;
+    String nomeDoProduto;
+    String preco;
+    int precoCompra;
+    String quantidade;
+    int quantidadeCompra;
 
-    public String getProduto() {
-        return produto;
-    }
-
-    public void setProduto(String produto) {
-        this.produto = produto;
-    }
-
-    public String getQtd() {
-        return qtd;
-    }
-
-    public void setQtd(String qtd) {
-        this.qtd = qtd;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
+    // Construtor
+    public Estoque(int id, String nomeDoProduto, String preco, String quantidade) {
         this.id = id;
+        this.nomeDoProduto = nomeDoProduto;
+        this.preco = preco;
+        this.quantidade = quantidade;
+    }
+
+    public Estoque(String nomeDoProduto, int precoCompra, int quantidadeCompra) {
+        this.nomeDoProduto = nomeDoProduto;
+        this.precoCompra = precoCompra;
+        this.quantidadeCompra = quantidadeCompra;
+    }
+
+    // Getters and Setters
+    public String getNomeDoProduto() {
+        return nomeDoProduto;
+    }
+
+    public void setNomeDoProduto(String nomeDoProduto) {
+        this.nomeDoProduto = nomeDoProduto;
     }
 
     public String getPreco() {
@@ -35,28 +40,36 @@ public class Estoque {
         this.preco = preco;
     }
 
-    
+    public String getQuantidade() {
+        return quantidade;
+    }
 
-    public Estoque(String produto, String qtd, String id, String preco, String desconto) {
-        this.produto = produto;
-        this.qtd = qtd;
+    public void setQuantidade(String quantidade) {
+        this.quantidade = quantidade;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
         this.id = id;
-        this.preco = preco;
-        this.desconto = desconto;
     }
 
-    public String getDesconto() {
-        return desconto;
+    public int getQuantidadeCompra() {
+        return quantidadeCompra;
     }
 
-    public void setDesconto(String desconto) {
-        this.desconto = desconto;
+    public void setQuantidadeCompra(int quantidadeCompra) {
+        this.quantidadeCompra = quantidadeCompra;
     }
 
-    public void add(Estoque estoques) {
+    public int getPrecoCompra() {
+        return precoCompra;
     }
 
+    public void setPrecoCompra(int precoCompra) {
+        this.precoCompra = precoCompra;
+    }
 
-
-    
 }

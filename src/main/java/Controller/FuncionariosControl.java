@@ -7,7 +7,7 @@ import javax.swing.table.DefaultTableModel;
 import Connection.FuncionariosDAO;
 import Model.Funcionario;
 
-public class FuncionariosController {
+public class FuncionariosControl {
 
     // Atributos
     private List<Funcionario> funcionarios; // Lista de objetos Carros
@@ -15,11 +15,14 @@ public class FuncionariosController {
     private JTable table; // Tabela Swing onde os dados são exibidos
 
     // Construtor
-    public FuncionariosController(List<Funcionario> funcionarios, DefaultTableModel tableModel, JTable table) {
+    public FuncionariosControl(List<Funcionario> funcionarios, DefaultTableModel tableModel, JTable table) {
         this.funcionarios = funcionarios; // Inicializa a lista de carros
         this.tableModel = tableModel; // Inicializa o modelo da tabela
         this.table = table; // Inicializa a tabela Swing
+
     }
+
+  
 
     // Método para atualizar a tabela de exibição com dados do banco de dados
     private void atualizarTabela() {
@@ -60,4 +63,14 @@ public class FuncionariosController {
 
         
     }
+
+
+    private boolean validarFormatoCPF(String cpf) {
+        // Remove caracteres não numéricos do CPF
+        cpf = cpf.replaceAll("[^0-9]", "");
+
+        // Verifica se o CPF possui 11 dígitos
+        return cpf.length() == 11;
+    }
+    
 }
