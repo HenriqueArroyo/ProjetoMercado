@@ -27,7 +27,7 @@ import View.JanelaClientes;
 public class Caixa extends JFrame {
     // Atributos
     private JTextField inputCPF, valorFinal, quantidadeDeItens, inputProduto;
-    private JButton verificaCPF, cadastrarNovoCliente, fazerCompra, adicionaProduto;
+    private JButton  compraButton, adicionaProduto;
     private JPanel mainPanel, cpfPanel, buttonPanel, produtoPanel, totalPanel;
     private JLabel clienteVIP;
     private DefaultTableModel tableModel;
@@ -56,17 +56,13 @@ public class Caixa extends JFrame {
         valorFinal = new JTextField();
         quantidadeDeItens = new JTextField();
         clienteVIP = new JLabel("Cliente VIP");
-        verificaCPF = new JButton("Verificar CPF");
-        cadastrarNovoCliente = new JButton("Cadastrar novo cliente");
         adicionaProduto = new JButton("Adicionar Produto");
-        fazerCompra = new JButton("Fazer compra");
+        compraButton = new JButton("Fazer compra");
 
 
         clienteVIP.setBackground(Color.WHITE);
-        verificaCPF.setBackground(Color.WHITE);
-        cadastrarNovoCliente.setBackground(Color.WHITE);
         adicionaProduto.setBackground(Color.white);
-        fazerCompra.setBackground(Color.white);
+        compraButton.setBackground(Color.white);
         clienteVIP.setForeground(new Color(65, 166, 18));
         // Adicionando o mainPanel ao JFrame
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
@@ -104,34 +100,11 @@ public class Caixa extends JFrame {
     
 
         buttonPanel.setLayout(new GridLayout(1, 1));
-        buttonPanel.add(fazerCompra);
+        buttonPanel.add(compraButton);
         mainPanel.add(buttonPanel);
 
-        // Tratamento de eventos
-        verificaCPF.addActionListener(e -> {
-            isClienteVIP = validaCpf(inputCPF.getText());
-            System.out.println(isClienteVIP);
-            if (isClienteVIP == true) {
-                JOptionPane.showMessageDialog(null, "Cliente VIP!");
-                cpfPanel.add(clienteVIP);
-            }
+   
 
-            inputCPF.setText("");
-        });
-
-        adicionaProduto.addActionListener(e -> {
-            if (!inputProduto.getText().isEmpty()) {
-                buscarProduto(Integer.parseInt(inputProduto.getText()));
-                inputProduto.setText("");
-            } else {
-                JOptionPane.showMessageDialog(null, "Preencha os campos corretamente!", "Mercado",
-                        JOptionPane.WARNING_MESSAGE);
-            }
-        });
-
-        cadastrarNovoCliente.addActionListener(e -> {
-            cadastraNovoCliente();
-        });
     }
 
     public boolean validaCpf(String cpf) {
