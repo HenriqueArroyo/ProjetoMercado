@@ -19,6 +19,7 @@ import java.awt.GridLayout;
 
 import Connection.ClientesDAO;
 import Connection.EstoqueDAO;
+import Controller.VendasControl;
 import Model.Cliente;
 import Model.Estoque;
 import View.JanelaCadastro;
@@ -27,7 +28,7 @@ import View.JanelaClientes;
 public class Caixa extends JFrame {
     // Atributos
     private JTextField inputCPF, valorFinal, quantidadeDeItens, inputProduto;
-    private JButton  compraButton, adicionaProduto;
+    private JButton  compraButton, adicionaProduto, verificaCPF;
     private JPanel mainPanel, cpfPanel, buttonPanel, produtoPanel, totalPanel;
     private JLabel clienteVIP;
     private DefaultTableModel tableModel;
@@ -56,14 +57,17 @@ public class Caixa extends JFrame {
         valorFinal = new JTextField();
         quantidadeDeItens = new JTextField();
         clienteVIP = new JLabel("Cliente VIP");
-        adicionaProduto = new JButton("Adicionar Produto");
-        compraButton = new JButton("Fazer compra");
+        adicionaProduto = new JButton("Adicionar Produtos");
+        compraButton = new JButton("Finalizar Compra");
+        verificaCPF = new JButton("Verificação Cliente (CPF)");
 
 
         clienteVIP.setBackground(Color.WHITE);
         adicionaProduto.setBackground(Color.white);
         compraButton.setBackground(Color.white);
         clienteVIP.setForeground(new Color(65, 166, 18));
+        verificaCPF.setBackground(Color.WHITE);
+        verificaCPF.setForeground(Color.black);
         // Adicionando o mainPanel ao JFrame
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         add(mainPanel);
@@ -86,12 +90,17 @@ public class Caixa extends JFrame {
         mainPanel.add(totalPanel);
 
 
-
+         
+        cpfPanel.setLayout(new GridLayout(1, 3, 5, 4));
+        cpfPanel.add(verificaCPF);
+        cpfPanel.add(inputCPF);
+      
+        mainPanel.add(cpfPanel);
 
         
         produtoPanel.setLayout(new GridLayout(1, 2, 4, 5));
-        produtoPanel.add(inputProduto);
         produtoPanel.add(adicionaProduto);
+        produtoPanel.add(inputProduto);
         mainPanel.add(produtoPanel);
 
 
@@ -102,6 +111,20 @@ public class Caixa extends JFrame {
         buttonPanel.setLayout(new GridLayout(1, 1));
         buttonPanel.add(compraButton);
         mainPanel.add(buttonPanel);
+
+
+
+        verificaCPF.addActionListener(e -> {
+            isClienteVIP = validaCpf(inputCPF.getText());
+            System.out.println(isClienteVIP);
+            if (isClienteVIP == true) {
+                JOptionPane.showMessageDialog(null, "Cliente VIP!");
+                cpfPanel.add(clienteVIP);
+            }
+
+            inputCPF.setText("");
+        });
+
 
    
 

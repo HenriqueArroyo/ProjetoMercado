@@ -7,7 +7,7 @@ import View.Caixa;
 
 public class Main {
     public static void main(String[] args) {
-           int decisao = Integer.parseInt(JOptionPane.showInputDialog(null, "O que você deseja fazer: \n1- Realizar uma venda\n 2- Gerenciamento"));
+           int decisao = Integer.parseInt(JOptionPane.showOptionDialog());
         switch (decisao) {
         case 1:
         new Caixa().run();
