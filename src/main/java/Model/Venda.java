@@ -7,14 +7,16 @@ public class Venda {
     String valor;
     String data;
     String quantidadeDeProdutos;
+    String pagamento;
 
     // Construtor
-    public Venda(int id, String cliente, String valor, String data, String quantidadeDeProdutos) {
+    public Venda(int id, String cliente, String valor, String data, String quantidadeDeProdutos, String pagamento) {
         this.id = id;
         this.cliente = cliente;
         this.valor = valor;
         this.data = data;
         this.quantidadeDeProdutos = quantidadeDeProdutos;
+        this.pagamento = pagamento;
     }
 
     // Getters and Setters
@@ -58,5 +60,12 @@ public class Venda {
         this.id = id;
     }
 
-    
+    public String getPagamento() {
+       return pagamento;
+    }
+
+    public void  setPagamento(String pagamento) {
+        this.pagamento = pagamento;
+    }
+
 }

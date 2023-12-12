@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -42,6 +43,7 @@ public class Caixa extends JFrame {
     private int contProduto = 1;
     private int quantidadeTotal = 0;
     private int valorTotal = 0;
+    private JComboBox<String> metodoPagamentoComboBox;
 
     // Construtor
     public Caixa() {
@@ -60,7 +62,8 @@ public class Caixa extends JFrame {
         adicionaProduto = new JButton("Adicionar Produtos");
         compraButton = new JButton("Finalizar Compra");
         verificaCPF = new JButton("Verificação Cliente (CPF)");
-
+        String[] metodosPagamento = {"Dinheiro", "Crédito", "Débito"};
+        metodoPagamentoComboBox = new JComboBox<>(metodosPagamento);
 
         clienteVIP.setBackground(Color.WHITE);
         adicionaProduto.setBackground(Color.white);
@@ -94,7 +97,7 @@ public class Caixa extends JFrame {
         cpfPanel.setLayout(new GridLayout(1, 3, 5, 4));
         cpfPanel.add(verificaCPF);
         cpfPanel.add(inputCPF);
-      
+        buttonPanel.add(metodoPagamentoComboBox);
         mainPanel.add(cpfPanel);
 
         
@@ -103,14 +106,19 @@ public class Caixa extends JFrame {
         produtoPanel.add(inputProduto);
         mainPanel.add(produtoPanel);
 
-
-
-
-    
-
         buttonPanel.setLayout(new GridLayout(1, 1));
         buttonPanel.add(compraButton);
         mainPanel.add(buttonPanel);
+
+        adicionaProduto.addActionListener(e -> {
+            if (!inputProduto.getText().isEmpty()) {
+                buscarProduto(Integer.parseInt(inputProduto.getText()));
+                inputProduto.setText("");
+            } else {
+                JOptionPane.showMessageDialog(null, "Preencha os campos corretamente!", "Mercado",
+                        JOptionPane.WARNING_MESSAGE);
+            }
+        });
 
 
 
@@ -125,7 +133,29 @@ public class Caixa extends JFrame {
             inputCPF.setText("");
         });
 
+        compraButton.addActionListener(e -> {
+            // Adicionando a lógica de realizar a venda ao botão
+            int decisao = JOptionPane.showConfirmDialog(null, "Deseja realmente finalizar a compra?", "Finalizar Compra", JOptionPane.YES_NO_OPTION);
+            if (decisao == JOptionPane.YES_OPTION) {
+                // Obter o método de pagamento selecionado
+                String metodoPagamentoSelecionado = (String) metodoPagamentoComboBox.getSelectedItem();
 
+                // Lógica para finalizar a venda
+                // Você pode precisar chamar métodos específicos para atualizar o estado da venda,
+                // como atualizar o banco de dados, realizar cálculos finais, etc.
+                // No exemplo, estou apenas chamando o método realizarVenda no VendasControl.
+
+                int idVenda = 1; // Substitua pelo ID real da venda
+                String cliente = ""; // Substitua pelo cliente real
+                String quantidadeDeProdutos = ""; // Substitua pela quantidade real
+                String valor = ""; // Substitua pelo valor real
+                String data = ""; // Substitua pela data real
+
+                VendasControl vendasControl = new VendasControl(null, null, null); // Substitua pelos valores reais
+
+                vendasControl.realizarVenda(idVenda, cliente, quantidadeDeProdutos, valor, data, pagamento);
+            }
+        });
    
 
     }
@@ -182,7 +212,7 @@ public class Caixa extends JFrame {
     }
 
     public void cadastraNovoCliente() {
-        int res = JOptionPane.showConfirmDialog(null, "Iniciar cadastro do cliente",
+        int res = JOptionPane.showConfirmDialog(null, "Ir para Lista de Produtos",
                 "Mercado", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
         if (res == JOptionPane.YES_OPTION) {
             JFrame janela = new JFrame();
@@ -190,7 +220,7 @@ public class Caixa extends JFrame {
             janela.setDefaultCloseOperation(2);
             janela.setBounds(0, 0, 500, 300);
 
-            janela.add(new JanelaCadastro());
+            janela.add(new JanelaEstoque());
         }
     }
 

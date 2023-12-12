@@ -25,7 +25,7 @@ public class VendasDAO {
     // métodos
     // criar Tabela
     public void criaTabela() {
-        String sql = "CREATE TABLE IF NOT EXISTS vendas_mercado (id serial not null PRIMARY KEY, cliente VARCHAR(255), valor VARCHAR(10), data VARCHAR(255), quantidade VARCHAR(10) )";
+        String sql = "CREATE TABLE IF NOT EXISTS vendas_mercado (id serial not null PRIMARY KEY, cliente VARCHAR(255), valor VARCHAR(10), data VARCHAR(255), quantidade VARCHAR(10), pagamento VARCHAR(15) )";
         try (Statement stmt = this.connection.createStatement()) {
             stmt.execute(sql);
             System.out.println("Tabela criada com sucesso.");
@@ -58,7 +58,8 @@ public class VendasDAO {
                         rs.getString("cliente"),
                         rs.getString("valor"),
                         rs.getString("data"),
-                        rs.getString("quantidade"));
+                        rs.getString("quantidade"),
+                        rs.getString("pagamento"));
                 vendas.add(venda); // Adiciona o objeto Clientes à lista de carros
             }
         } catch (SQLException ex) {
@@ -83,16 +84,17 @@ public class VendasDAO {
         }
     }
 
-    public void cadastrar(String cliente, String valor, String data, String quantidadeDeProdutos) {
+    public void cadastrar(String cliente, String valor, String data, String quantidadeDeProdutos, String pagamento) {
         PreparedStatement stmt = null;
         // Define a instrução SQL parametrizada para cadastrar na tabela
-        String sql = "INSERT INTO vendas_mercado(cliente, valor, data, quantidade) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO vendas_mercado(cliente, valor, data, quantidade, pagamento) VALUES (?, ?, ?, ?, ?)";
         try {
             stmt = connection.prepareStatement(sql);
             stmt.setString(1, cliente.toUpperCase().trim());
             stmt.setString(2, valor.trim());
             stmt.setString(3, data.trim());
             stmt.setString(4, quantidadeDeProdutos.trim());
+            stmt.setString(5, pagamento.trim());
             stmt.executeUpdate();
             System.out.println("Dados inseridos com sucesso");
         } catch (SQLException e) {
