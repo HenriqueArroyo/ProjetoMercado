@@ -26,7 +26,7 @@ public class EstoqueDAO {
     // métodos
     // criar Tabela
     public void criaTabela() {
-        String sql = "CREATE TABLE IF NOT EXISTS estoque_mercado (id SERIAL PRIMARY KEY , nome VARCHAR(255), preco int, quantidade VARCHAR(4))";
+        String sql = "CREATE TABLE IF NOT EXISTS estoque_mercado (id INTEGER PRIMARY KEY, nome VARCHAR(255), preco VARCHAR(255), quantidade VARCHAR(4))";
         try (Statement stmt = this.connection.createStatement()) {
             stmt.execute(sql);
             System.out.println("Tabela criada com sucesso.");
@@ -71,6 +71,41 @@ public class EstoqueDAO {
         return produtos; // Retorna a lista de clientes recuperados do banco de dados
     }
 
+    public List<Estoque> listarUm(int id) {
+        PreparedStatement stmt = null;
+        // Declaração do objeto PreparedStatement para executar a consulta
+        ResultSet rs = null;
+        // Declaração do objeto ResultSet para armazenar os resultados da consulta
+        produtos = new ArrayList<>();
+        // Cria uma lista para armazenar os carros recuperados do banco de dados
+        try {
+            stmt = connection.prepareStatement("SELECT * FROM estoque_mercado WHERE id=?");
+            // Prepara a consulta SQL para selecionar todos os registros da tabela
+            rs = stmt.executeQuery();
+            // Executa a consulta e armazena os resultados no ResultSet
+            while (rs.next()) {
+                // Para cada registro no ResultSet, cria um objeto Carros com os valores do
+                // registro
+
+                Estoque produto = new Estoque(
+                        rs.getInt("id"),
+                        rs.getString("nome"),
+                        rs.getString("preco"),
+                        rs.getString("quantidade"));
+                produtos.add(produto); // Adiciona o objeto Clientes à lista de carros
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex); // Em caso de erro durante a consulta, imprime o erro
+        } finally {
+            ConnectionFactory.closeConnection(connection, stmt, rs);
+
+            // Fecha a conexão, o PreparedStatement e o ResultSet
+        }
+        return produtos; // Retorna a lista de clientes recuperados do banco de dados
+    }
+
+    
+
     public void apagarTabela() {
         String sql = "DROP TABLE estoque_mercado";
         try (Statement stmt = connection.createStatement()) {
@@ -114,6 +149,24 @@ public class EstoqueDAO {
             stmt.setString(3, quantidade.trim());
             // placa é chave primaria não pode ser alterada.
             stmt.setInt(4, id);
+            stmt.executeUpdate();
+            System.out.println("Dados atualizados com sucesso");
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao atualizar dados no banco de dados.", e);
+        } finally {
+            ConnectionFactory.closeConnection(connection, stmt);
+        }
+    }
+
+    public void atualizarQuantidade(int id,String quantidade) {
+        PreparedStatement stmt = null;
+        // Define a instrução SQL parametrizada para atualizar dados pela placa
+        String sql = "UPDATE estoque_mercado SET quantidade = ? WHERE id = ?";
+        try {
+            stmt = connection.prepareStatement(sql);
+            stmt.setString(1, quantidade.trim());
+            // placa é chave primaria não pode ser alterada.
+            stmt.setInt(2, id);
             stmt.executeUpdate();
             System.out.println("Dados atualizados com sucesso");
         } catch (SQLException e) {

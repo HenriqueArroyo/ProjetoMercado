@@ -129,7 +129,7 @@ public class Caixa extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 new VendasDAO().cadastrar("13/12/2023", clienteComboBox.getSelectedItem().toString().trim(),
                         String.valueOf(quantidadeTotal), metodoPagamentoComboBox.getSelectedItem().toString().trim(),
-                        String.valueOf(valorTotal));
+                        String.valueOf(valorFinal));
                 JOptionPane.showMessageDialog(null, "Venda realizada!", getTitle(), JOptionPane.INFORMATION_MESSAGE);
                 listaDeCompra.clear();
                 atualizaTabela();
@@ -162,17 +162,17 @@ public class Caixa extends JFrame {
     private void atualizarTotaisAutomaticamente() {
         quantidadeTotal = 0;
         valorTotal = 0;
-
+    
         for (Estoque compra : listaDeCompra) {
             quantidadeTotal += compra.getQuantidadeCompra();
             valorTotal += compra.getQuantidadeCompra() * compra.getPrecoCompra();
         }
-
+    
         quantidadeDeItens.setText(String.valueOf(quantidadeTotal));
         valorFinal.setText(String.format("R$ %.2f", (double) valorTotal / 100));
     }
 
-    public void buscarProduto(int id) {
+    private void buscarProduto(int id) {
         contProduto = 1;
         produtos = new EstoqueDAO().listarTodos();
         for (Estoque produto : produtos) {
@@ -187,19 +187,24 @@ public class Caixa extends JFrame {
                         contProduto = 1;
                     }
                 }
-                tableModel.addRow(new Object[] { produto.getNomeDoProduto(), contProduto, produto.getPreco() });
-                Estoque produtoComprado = new Estoque(produto.getNomeDoProduto(), produto.getPrecoCompra(),
-                        contProduto);
+                tableModel.addRow(new Object[]{produto.getNomeDoProduto(), contProduto, produto.getPreco()});
+                
+                // Ajuste nesta linha
+                Estoque produtoComprado = new Estoque(produto.getNomeDoProduto(), produto.getPrecoCompra(), contProduto);
+                
+                atualizarTotaisAutomaticamente();
+
                 listaDeCompra.add(produtoComprado);
                 produtoNaoEncontrado = false;
             }
         }
-
+    
         if (produtoNaoEncontrado) {
             JOptionPane.showMessageDialog(null, "Produto não encontrado!", "Mercado", JOptionPane.ERROR_MESSAGE);
         }
         atualizarTotaisAutomaticamente();
     }
+    
 
     public void atualizaTabela() {
         tableModel.setRowCount(0);
