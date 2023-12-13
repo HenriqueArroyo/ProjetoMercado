@@ -1,24 +1,12 @@
 package View;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-
-import java.awt.Color;
-import java.awt.GridLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import Connection.ClientesDAO;
 import Connection.EstoqueDAO;
@@ -27,7 +15,6 @@ import Model.Cliente;
 import Model.Estoque;
 
 public class Caixa extends JFrame {
-    // Atributos
     private JTextField inputCPF, valorFinal, quantidadeDeItens, inputProduto;
     private JButton compraButton, adicionaProduto, verificaCPF, listaProdutos;
     private JPanel mainPanel, cpfPanel, buttonPanel, produtoPanel, totalPanel;
@@ -46,22 +33,14 @@ public class Caixa extends JFrame {
     private JComboBox<String> metodoPagamentoComboBox;
     private JComboBox<String> clienteComboBox;
 
-    // Construtor
     public Caixa() {
-        // Etapa 1: Inicialização dos componentes
         inicializarComponentes();
-
-        // Etapa 2: Configuração do layout
         configurarLayout();
-
-        // Etapa 3: Adição de listeners aos componentes interativos
+        atualizarTotaisAutomaticamente();
         adicionarListeners();
-
-        // Etapa 4: Configuração da janela principal
         configurarJanela();
     }
 
-    // Etapa 1: Inicialização dos componentes
     private void inicializarComponentes() {
         jSPane = new JScrollPane();
         mainPanel = new JPanel();
@@ -94,7 +73,6 @@ public class Caixa extends JFrame {
         verificaCPF.setForeground(Color.black);
     }
 
-    // Etapa 2: Configuração do layout
     private void configurarLayout() {
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         clientes = new ClientesDAO().listarTodos();
@@ -125,13 +103,12 @@ public class Caixa extends JFrame {
         add(mainPanel);
     }
 
-    // Etapa 3: Adição de listeners aos componentes interativos
     private void adicionarListeners() {
         adicionaProduto.addActionListener(e -> {
             if (!inputProduto.getText().isEmpty()) {
                 buscarProduto(Integer.parseInt(inputProduto.getText()));
                 inputProduto.setText("");
-                atualizaQuantidadeEValorTotal();
+                atualizarTotaisAutomaticamente();
             } else {
                 JOptionPane.showMessageDialog(null, "Preencha os campos corretamente!", "Mercado",
                         JOptionPane.WARNING_MESSAGE);
@@ -141,7 +118,7 @@ public class Caixa extends JFrame {
         verificaCPF.addActionListener(e -> {
             isClienteVIP = validaCpf(inputCPF.getText());
             System.out.println(isClienteVIP);
-            if (isClienteVIP == true) {
+            if (isClienteVIP) {
                 JOptionPane.showMessageDialog(null, "Cliente VIP!");
                 cpfPanel.add(clienteVIP);
             }
@@ -156,7 +133,7 @@ public class Caixa extends JFrame {
                 JOptionPane.showMessageDialog(null, "Venda realizada!", getTitle(), JOptionPane.INFORMATION_MESSAGE);
                 listaDeCompra.clear();
                 atualizaTabela();
-                atualizaQuantidadeEValorTotal();
+                atualizarTotaisAutomaticamente();
             }
         });
 
@@ -182,6 +159,19 @@ public class Caixa extends JFrame {
         return false;
     }
 
+    private void atualizarTotaisAutomaticamente() {
+        quantidadeTotal = 0;
+        valorTotal = 0;
+
+        for (Estoque compra : listaDeCompra) {
+            quantidadeTotal += compra.getQuantidadeCompra();
+            valorTotal += compra.getQuantidadeCompra() * compra.getPrecoCompra();
+        }
+
+        quantidadeDeItens.setText(String.valueOf(quantidadeTotal));
+        valorFinal.setText(String.format("R$ %.2f", (double) valorTotal / 100));
+    }
+
     public void buscarProduto(int id) {
         contProduto = 1;
         produtos = new EstoqueDAO().listarTodos();
@@ -198,7 +188,7 @@ public class Caixa extends JFrame {
                     }
                 }
                 tableModel.addRow(new Object[] { produto.getNomeDoProduto(), contProduto, produto.getPreco() });
-                Estoque produtoComprado = new Estoque(produto.getNomeDoProduto(), Integer.parseInt(produto.getPreco()),
+                Estoque produtoComprado = new Estoque(produto.getNomeDoProduto(), produto.getPrecoCompra(),
                         contProduto);
                 listaDeCompra.add(produtoComprado);
                 produtoNaoEncontrado = false;
@@ -208,7 +198,7 @@ public class Caixa extends JFrame {
         if (produtoNaoEncontrado) {
             JOptionPane.showMessageDialog(null, "Produto não encontrado!", "Mercado", JOptionPane.ERROR_MESSAGE);
         }
-        atualizaQuantidadeEValorTotal();
+        atualizarTotaisAutomaticamente();
     }
 
     public void atualizaTabela() {
@@ -216,22 +206,6 @@ public class Caixa extends JFrame {
         for (Estoque compra : listaDeCompra) {
             tableModel.addRow(
                     new Object[] { compra.getNomeDoProduto(), compra.getQuantidadeCompra(), compra.getPrecoCompra() });
-        }
-    }
-
-    private void atualizaQuantidadeEValorTotal() {
-        atualizarTotais();
-        quantidadeDeItens.setText(String.valueOf(quantidadeTotal));
-        valorFinal.setText("R$ " + String.valueOf(valorTotal));
-    }
-
-    private void atualizarTotais() {
-        quantidadeTotal = 0;
-        valorTotal = 0;
-
-        for (Estoque compra : listaDeCompra) {
-            quantidadeTotal += compra.getQuantidadeCompra();
-            valorTotal += compra.getQuantidadeCompra() * compra.getPrecoCompra();
         }
     }
 

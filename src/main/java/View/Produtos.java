@@ -49,7 +49,7 @@ public class Produtos extends JPanel {
         // Painel de botões
         jSPane = new JScrollPane();
         add(jSPane);
-        tableModel = new DefaultTableModel(new Object[][] {}, new String[] { "Id", "Nome do Produto", "Preço" });
+        tableModel = new DefaultTableModel(new Object[][] {}, new String[] { "Código", "Nome do Produto", "Preço" });
         table = new JTable(tableModel);
         jSPane.setViewportView(table);
 

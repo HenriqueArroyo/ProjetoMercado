@@ -26,7 +26,7 @@ public class EstoqueDAO {
     // métodos
     // criar Tabela
     public void criaTabela() {
-        String sql = "CREATE TABLE IF NOT EXISTS estoque_mercado (id SERIAL PRIMARY KEY , nome VARCHAR(255), preco VARCHAR(255), quantidade VARCHAR(4))";
+        String sql = "CREATE TABLE IF NOT EXISTS estoque_mercado (id SERIAL PRIMARY KEY , nome VARCHAR(255), preco int, quantidade VARCHAR(4))";
         try (Statement stmt = this.connection.createStatement()) {
             stmt.execute(sql);
             System.out.println("Tabela criada com sucesso.");

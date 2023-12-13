@@ -57,7 +57,7 @@ public class JanelaEstoque extends JPanel {
 
         // Painel de entrada
         JPanel inputPanel = new JPanel(new GridLayout(4, 2, 2, 4));
-        inputPanel.add(new JLabel("ID:"));
+        inputPanel.add(new JLabel("Código:"));
         inputPanel.add(inputId);
         inputPanel.add(new JLabel("Nome do Produto:"));
         inputPanel.add(inputNomeProduto);
@@ -70,7 +70,7 @@ public class JanelaEstoque extends JPanel {
         // Painel de botões
         jSPane = new JScrollPane();
         add(jSPane);
-        tableModel = new DefaultTableModel(new Object[][] {}, new String[] { "Id", "Nome do Produto", "Preço", "Quantidade" });
+        tableModel = new DefaultTableModel(new Object[][] {}, new String[] { "Código", "Nome do Produto", "Preço", "Quantidade" });
         table = new JTable(tableModel);
         jSPane.setViewportView(table);
 
