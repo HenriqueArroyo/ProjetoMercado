@@ -55,7 +55,7 @@ public class JanelaVendas extends JPanel {
 
         jSPane = new JScrollPane();
         add(jSPane);
-        tableModel = new DefaultTableModel(new Object[][] {}, new String[] { "Cliente", "Quantidade", "Pagamento", "Total" });
+        tableModel = new DefaultTableModel(new Object[][] {}, new String[] { "Data","Cliente", "Quantidade", "Pagamento", "Total" });
         table = new JTable(tableModel);
         jSPane.setViewportView(table);
 
@@ -67,8 +67,8 @@ public class JanelaVendas extends JPanel {
         tableModel.setRowCount(0);
         vendas = new VendasDAO().listarTodos();
         for (Venda venda : vendas) {
-            tableModel.addRow(new Object[] { venda.getId(), venda.getCliente(), venda.getValor(),
-                    venda.getQuantidadeDeProdutos(), venda.getData(), venda.getPagamento() });
+            tableModel.addRow(new Object[] { venda.getData(), venda.getCliente(), venda.getQuantidadeDeProdutos(),
+                    venda.getPagamento(), venda.getValor() });
         }
     }
 }

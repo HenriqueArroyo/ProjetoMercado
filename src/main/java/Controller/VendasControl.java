@@ -23,8 +23,8 @@ public class VendasControl {
         tableModel.setRowCount(0);
         vendas = new VendasDAO().listarTodos();
         for (Venda venda : vendas) {
-            tableModel.addRow(new Object[] { venda.getId(), venda.getCliente(), venda.getQuantidadeDeProdutos(), venda.getValor(),
-                    venda.getData(), venda.getPagamento() });
+            tableModel.addRow(new Object[] { venda.getData(), venda.getCliente(), venda.getQuantidadeDeProdutos(), venda.getPagamento(),
+                    venda.getValor() });
         }
     }
 

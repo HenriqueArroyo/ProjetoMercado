@@ -17,19 +17,19 @@ import javax.swing.table.DefaultTableModel;
 
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import Connection.ClientesDAO;
 import Connection.EstoqueDAO;
-import Controller.VendasControl;
+import Connection.VendasDAO;
 import Model.Cliente;
 import Model.Estoque;
-import View.JanelaCadastro;
-import View.JanelaClientes;
 
 public class Caixa extends JFrame {
     // Atributos
     private JTextField inputCPF, valorFinal, quantidadeDeItens, inputProduto;
-    private JButton  compraButton, adicionaProduto, verificaCPF;
+    private JButton compraButton, adicionaProduto, verificaCPF, listaProdutos;
     private JPanel mainPanel, cpfPanel, buttonPanel, produtoPanel, totalPanel;
     private JLabel clienteVIP;
     private DefaultTableModel tableModel;
@@ -44,10 +44,25 @@ public class Caixa extends JFrame {
     private int quantidadeTotal = 0;
     private int valorTotal = 0;
     private JComboBox<String> metodoPagamentoComboBox;
+    private JComboBox<String> clienteComboBox;
 
     // Construtor
     public Caixa() {
-        // Inicializando componentes
+        // Etapa 1: Inicialização dos componentes
+        inicializarComponentes();
+
+        // Etapa 2: Configuração do layout
+        configurarLayout();
+
+        // Etapa 3: Adição de listeners aos componentes interativos
+        adicionarListeners();
+
+        // Etapa 4: Configuração da janela principal
+        configurarJanela();
+    }
+
+    // Etapa 1: Inicialização dos componentes
+    private void inicializarComponentes() {
         jSPane = new JScrollPane();
         mainPanel = new JPanel();
         totalPanel = new JPanel();
@@ -62,65 +77,66 @@ public class Caixa extends JFrame {
         adicionaProduto = new JButton("Adicionar Produtos");
         compraButton = new JButton("Finalizar Compra");
         verificaCPF = new JButton("Verificação Cliente (CPF)");
+        listaProdutos = new JButton("Exibir Produtos");
         String[] metodosPagamento = {"Dinheiro", "Crédito", "Débito"};
         metodoPagamentoComboBox = new JComboBox<>(metodosPagamento);
-
+        quantidadeDeItens.setEditable(false);
+        valorFinal.setEditable(false);
+        listaProdutos.setBackground(Color.WHITE);
+        listaProdutos.setForeground(Color.black);
         clienteVIP.setBackground(Color.WHITE);
         adicionaProduto.setBackground(Color.white);
+        adicionaProduto.setForeground(Color.black);
         compraButton.setBackground(Color.white);
-        clienteVIP.setForeground(new Color(65, 166, 18));
+        compraButton.setForeground(Color.black);
+        clienteVIP.setForeground(Color.black);
         verificaCPF.setBackground(Color.WHITE);
         verificaCPF.setForeground(Color.black);
-        // Adicionando o mainPanel ao JFrame
+    }
+
+    // Etapa 2: Configuração do layout
+    private void configurarLayout() {
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-        add(mainPanel);
-
-
-
-            tableModel = new DefaultTableModel(new Object[][] {},
+        clientes = new ClientesDAO().listarTodos();
+        String[] nomesClientes = clientes.stream().map(Cliente::getNome).toArray(String[]::new);
+        clienteComboBox = new JComboBox<>(nomesClientes);
+        cpfPanel.add(clienteComboBox);
+        cpfPanel.add(metodoPagamentoComboBox);
+        tableModel = new DefaultTableModel(new Object[][] {},
                 new String[] { "Produto", "Quantidade", "Valor" });
         table = new JTable(tableModel);
         jSPane.setViewportView(table);
         mainPanel.add(jSPane);
-
         totalPanel.setLayout(new GridLayout(1, 3));
         totalPanel.add(new JLabel("Total:"));
         totalPanel.add(quantidadeDeItens);
         totalPanel.add(valorFinal);
-        valorFinal.setEditable(false);
-        quantidadeDeItens.setEditable(false);
-        atualizaQuantidadeEValorTotal();
         mainPanel.add(totalPanel);
-
-
-         
         cpfPanel.setLayout(new GridLayout(1, 3, 5, 4));
-        cpfPanel.add(verificaCPF);
-        cpfPanel.add(inputCPF);
-        buttonPanel.add(metodoPagamentoComboBox);
         mainPanel.add(cpfPanel);
-
-        
         produtoPanel.setLayout(new GridLayout(1, 2, 4, 5));
+        produtoPanel.add(listaProdutos);
         produtoPanel.add(adicionaProduto);
         produtoPanel.add(inputProduto);
         mainPanel.add(produtoPanel);
-
         buttonPanel.setLayout(new GridLayout(1, 1));
         buttonPanel.add(compraButton);
         mainPanel.add(buttonPanel);
+        add(mainPanel);
+    }
 
+    // Etapa 3: Adição de listeners aos componentes interativos
+    private void adicionarListeners() {
         adicionaProduto.addActionListener(e -> {
             if (!inputProduto.getText().isEmpty()) {
                 buscarProduto(Integer.parseInt(inputProduto.getText()));
                 inputProduto.setText("");
+                atualizaQuantidadeEValorTotal();
             } else {
                 JOptionPane.showMessageDialog(null, "Preencha os campos corretamente!", "Mercado",
                         JOptionPane.WARNING_MESSAGE);
             }
         });
-
-
 
         verificaCPF.addActionListener(e -> {
             isClienteVIP = validaCpf(inputCPF.getText());
@@ -129,35 +145,31 @@ public class Caixa extends JFrame {
                 JOptionPane.showMessageDialog(null, "Cliente VIP!");
                 cpfPanel.add(clienteVIP);
             }
-
             inputCPF.setText("");
         });
 
-        compraButton.addActionListener(e -> {
-            // Adicionando a lógica de realizar a venda ao botão
-            int decisao = JOptionPane.showConfirmDialog(null, "Deseja realmente finalizar a compra?", "Finalizar Compra", JOptionPane.YES_NO_OPTION);
-            if (decisao == JOptionPane.YES_OPTION) {
-                // Obter o método de pagamento selecionado
-                String metodoPagamentoSelecionado = (String) metodoPagamentoComboBox.getSelectedItem();
-
-                // Lógica para finalizar a venda
-                // Você pode precisar chamar métodos específicos para atualizar o estado da venda,
-                // como atualizar o banco de dados, realizar cálculos finais, etc.
-                // No exemplo, estou apenas chamando o método realizarVenda no VendasControl.
-
-                int idVenda = 1; // Substitua pelo ID real da venda
-                String cliente = ""; // Substitua pelo cliente real
-                String quantidadeDeProdutos = ""; // Substitua pela quantidade real
-                String valor = ""; // Substitua pelo valor real
-                String data = ""; // Substitua pela data real
-
-                VendasControl vendasControl = new VendasControl(null, null, null); // Substitua pelos valores reais
-
-                vendasControl.realizarVenda(idVenda, cliente, quantidadeDeProdutos, valor, data, pagamento);
+        compraButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                new VendasDAO().cadastrar("13/12/2023", clienteComboBox.getSelectedItem().toString().trim(),
+                        String.valueOf(quantidadeTotal), metodoPagamentoComboBox.getSelectedItem().toString().trim(),
+                        String.valueOf(valorTotal));
+                JOptionPane.showMessageDialog(null, "Venda realizada!", getTitle(), JOptionPane.INFORMATION_MESSAGE);
+                listaDeCompra.clear();
+                atualizaTabela();
+                atualizaQuantidadeEValorTotal();
             }
         });
-   
 
+        listaProdutos.addActionListener(e -> {
+            listarProdutos();
+        });
+    }
+
+    private void configurarJanela() {
+        pack();
+        setVisible(true);
+        setSize(800, 550);
+        setResizable(false);
     }
 
     public boolean validaCpf(String cpf) {
@@ -185,9 +197,7 @@ public class Caixa extends JFrame {
                         contProduto = 1;
                     }
                 }
-                tableModel.addRow(new Object[] {
-                        produto.getNomeDoProduto(), contProduto, produto.getPreco()
-                });
+                tableModel.addRow(new Object[] { produto.getNomeDoProduto(), contProduto, produto.getPreco() });
                 Estoque produtoComprado = new Estoque(produto.getNomeDoProduto(), Integer.parseInt(produto.getPreco()),
                         contProduto);
                 listaDeCompra.add(produtoComprado);
@@ -202,47 +212,45 @@ public class Caixa extends JFrame {
     }
 
     public void atualizaTabela() {
-        tableModel.setRowCount(0); // Limpa todas as linhas existentes na tabela
-        // Obtém os carros atualizados do banco de dados
+        tableModel.setRowCount(0);
         for (Estoque compra : listaDeCompra) {
-            // Adiciona os dados de cada carro como uma nova linha na tabela Swing
             tableModel.addRow(
                     new Object[] { compra.getNomeDoProduto(), compra.getQuantidadeCompra(), compra.getPrecoCompra() });
         }
     }
 
-    public void cadastraNovoCliente() {
-        int res = JOptionPane.showConfirmDialog(null, "Ir para Lista de Produtos",
+    private void atualizaQuantidadeEValorTotal() {
+        atualizarTotais();
+        quantidadeDeItens.setText(String.valueOf(quantidadeTotal));
+        valorFinal.setText("R$ " + String.valueOf(valorTotal));
+    }
+
+    private void atualizarTotais() {
+        quantidadeTotal = 0;
+        valorTotal = 0;
+
+        for (Estoque compra : listaDeCompra) {
+            quantidadeTotal += compra.getQuantidadeCompra();
+            valorTotal += compra.getQuantidadeCompra() * compra.getPrecoCompra();
+        }
+    }
+
+    public void listarProdutos() {
+        int res = JOptionPane.showConfirmDialog(null, "Visualizar a lista de Produtos?",
                 "Mercado", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
         if (res == JOptionPane.YES_OPTION) {
             JFrame janela = new JFrame();
             janela.setVisible(true);
             janela.setDefaultCloseOperation(2);
             janela.setBounds(0, 0, 500, 300);
-
-            janela.add(new JanelaEstoque());
+            janela.add(new Produtos());
         }
-    }
-
-    public void atualizaQuantidadeEValorTotal() {
-        valorTotal = 0;
-        for (Estoque compra : listaDeCompra) {
-            int soma = compra.getQuantidadeCompra() * compra.getPrecoCompra();
-            valorTotal += soma;
-        }
-        valorFinal.setText("R$ " + String.valueOf(valorTotal));
-
-        quantidadeTotal = 0;
-        for (Estoque compra : listaDeCompra) {
-            quantidadeTotal += compra.getQuantidadeCompra();
-        }
-        quantidadeDeItens.setText(String.valueOf(quantidadeTotal));
     }
 
     public void run() {
         pack();
         setVisible(true);
-        setSize(650, 450);
+        setSize(800, 550);
         setResizable(false);
     }
 }

@@ -17,7 +17,7 @@ public class Main {
                 new JanelaPrincipal().run();
                 break;
             default:
-                JOptionPane.showMessageDialog(null, "Digite um valor válido");
+                JOptionPane.showMessageDialog(null, "Até Mais!!");
                 break;
         }
     }

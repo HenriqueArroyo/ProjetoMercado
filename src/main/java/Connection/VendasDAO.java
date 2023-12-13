@@ -84,17 +84,17 @@ public class VendasDAO {
         }
     }
 
-    public void cadastrar(String cliente, String valor, String data, String quantidadeDeProdutos, String pagamento) {
+    public void cadastrar(String data, String cliente, String quantidadeDeProdutos, String pagamento, String valor  ) {
         PreparedStatement stmt = null;
         // Define a instrução SQL parametrizada para cadastrar na tabela
-        String sql = "INSERT INTO vendas_mercado(cliente, valor, data, quantidade, pagamento) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO vendas_mercado(data, cliente, quantidade, pagamento, valor ) VALUES (?, ?, ?, ?, ?)";
         try {
             stmt = connection.prepareStatement(sql);
-            stmt.setString(1, cliente.toUpperCase().trim());
-            stmt.setString(2, valor.trim());
-            stmt.setString(3, data.trim());
-            stmt.setString(4, quantidadeDeProdutos.trim());
-            stmt.setString(5, pagamento.trim());
+            stmt.setString(1, data.trim());
+            stmt.setString(2, cliente.toUpperCase().trim());
+            stmt.setString(3, quantidadeDeProdutos.trim());
+            stmt.setString(4, pagamento.trim());
+            stmt.setString(5, valor.trim());
             stmt.executeUpdate();
             System.out.println("Dados inseridos com sucesso");
         } catch (SQLException e) {
