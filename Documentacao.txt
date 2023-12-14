@@ -1,0 +1,204 @@
+
+Documentação: Mercado
+
+
+Módulo: JanelaCadastroCliente
+
+Visão Geral
+A classe JanelaCadastroCliente é responsável pela interface gráfica de cadastro e gestão de clientes. O módulo permite a inserção de informações dos clientes, exibição em uma tabela e oferece funcionalidades para cadastro e exclusão.
+
+Componentes Principais
+Botões
+Cadastrar: Aciona o cadastro do cliente com base nas informações inseridas nos campos correspondentes.
+Apagar: Remove o cliente selecionado na tabela.
+Campos de Entrada
+Nome: Nome do cliente.
+CPF: Número do CPF do cliente.
+Data de Nascimento: Data de nascimento do cliente no formato "dd/mm/aaaa".
+Telefone: Número de telefone do cliente.
+Tabela de Clientes
+Exibe os clientes cadastrados com as seguintes colunas:
+Nome
+CPF
+Idade (calculada a partir da data de nascimento)
+Telefone
+
+
+Métodos Importantes
+
+Construtor: Inicializa todos os componentes da interface gráfica, define o layout e adiciona os ouvintes de eventos para os botões e tabela.
+
+Método run(): Torna a janela visível, define seu tamanho e a posiciona no centro da tela.
+
+Método atualizarTabela(): Atualiza a tabela de clientes com os dados mais recentes provenientes do banco de dados.
+
+
+
+Fluxo de Funcionamento
+Cadastro de Cliente:
+
+Preencher os campos de nome, CPF, data de nascimento e telefone.
+Clicar no botão "Cadastrar".
+O sistema valida os campos e realiza o cadastro, atualizando a tabela de clientes.
+
+
+Exclusão de Cliente:
+
+Selecionar um cliente na tabela.
+Clicar no botão "Apagar".
+O sistema remove o cliente selecionado da tabela e do banco de dados.
+
+
+Visualização e Edição:
+
+Clicar sobre um cliente na tabela.
+Os campos de entrada são preenchidos automaticamente com os dados do cliente selecionado.
+Realizar as edições necessárias nos campos.
+Clicar no botão "Cadastrar" para atualizar as informações do cliente.
+
+
+Atualização Automática:
+
+A tabela de clientes é atualizada automaticamente sempre que um novo cliente é cadastrado ou um existente é removido.
+Observações:
+
+A classe utiliza o padrão MVC (Model-View-Controller), onde o controle (ClientesControl) é responsável por manipular os dados e interagir com a tabela.
+A idade do cliente é calculada com base na data de nascimento.
+O sistema exige o preenchimento de todos os campos obrigatórios para realizar o cadastro, exibindo uma mensagem de aviso se algum campo estiver vazio.
+
+
+
+Módulo: Caixa
+
+
+Visão Geral
+A classe Caixa representa a interface gráfica de um caixa de mercado, incluindo funcionalidades como adição de produtos, verificação de CPF do cliente, finalização de compra e exibição de lista de produtos. Utiliza um sistema de carrinho de compras.
+
+Componentes Principais
+
+Botões
+Adicionar Produtos: Adiciona produtos ao carrinho de compras.
+Finalizar Compra: Conclui a compra e realiza o registro da venda.
+Verificação Cliente (CPF): Verifica se o cliente possui CPF cadastrado.
+Exibir Produtos: Lista os produtos disponíveis em uma janela separada.
+Campos de Entrada
+CPF: Número do CPF do cliente.
+Produto: Identificador do produto a ser adicionado ao carrinho.
+Tabela de Produtos
+Exibe os produtos adicionados ao carrinho com as seguintes colunas:
+Nome do Produto
+Quantidade
+Valor
+Outros Componentes
+ComboBox de Métodos de Pagamento: Permite a seleção do método de pagamento.
+ComboBox de Clientes: Lista os clientes disponíveis.
+
+
+Métodos Importantes
+
+Construtor: Inicializa todos os componentes da interface gráfica, define o layout e adiciona os ouvintes de eventos para os botões e tabela.
+
+Método atualizarTotaisAutomaticamente(): Atualiza automaticamente os totais com base nos produtos do carrinho.
+
+Método buscarProduto(int id): Busca um produto pelo ID e o adiciona à lista de compra.
+
+Método aplicarDesconto(): Aplica um desconto de 10% ao valor total da compra para clientes cadastrados.
+
+Método atualizaTabela(): Atualiza a tabela com a lista de compra atual.
+
+Método listarProdutos(): Exibe a lista de produtos disponíveis em uma janela separada.
+
+Fluxo de Funcionamento
+Adição de Produtos:
+
+Informar o ID do produto no campo correspondente.
+Clicar no botão "Adicionar Produtos".
+A quantidade e o valor são atualizados automaticamente.
+
+
+Verificação de CPF:
+
+Informar o CPF do cliente no campo correspondente.
+Clicar no botão "Verificação Cliente (CPF)".
+
+
+Finalização de Compra:
+
+Selecionar um cliente na ComboBox.
+Selecionar o método de pagamento na ComboBox correspondente.
+Clicar no botão "Finalizar Compra".
+Realiza o registro da venda, exibindo uma mensagem de sucesso.
+
+
+Exibição de Produtos:
+
+Clicar no botão "Exibir Produtos".
+Abre uma nova janela com a lista de produtos disponíveis.
+
+
+Observações:
+
+O sistema exibe automaticamente a quantidade total de itens e o valor final da compra.
+Clientes cadastrados recebem um desconto de 10% na compra.
+
+
+
+Módulo: JanelaEstoque
+
+
+Visão Geral
+A classe JanelaEstoque é responsável pela interface gráfica de controle de estoque de produtos. Permite o cadastro, edição e exclusão de produtos, exibindo uma tabela atualizada dinamicamente.
+
+Componentes Principais
+
+Botões
+Cadastrar: Cadastra um novo produto.
+Editar: Edita as informações de um produto selecionado.
+Excluir: Remove um produto selecionado.
+Campos de Entrada
+Código: Identificador do produto.
+Nome do Produto: Nome do produto.
+Preço (Inteiro): Preço do produto em valor inteiro.
+Quantidade: Quantidade disponível em estoque.
+Tabela de Produtos
+Exibe os produtos cadastrados com as seguintes colunas:
+Código
+Nome do Produto
+Preço
+Quantidade
+
+
+Métodos Importantes
+
+Construtor: Inicializa todos os componentes da interface gráfica, define o layout e adiciona os ouvintes de eventos para os botões e tabela.
+
+Método atualizarTabela(): Atualiza a tabela de produtos com os dados mais recentes provenientes do banco de dados.
+
+Fluxo de Funcionamento
+Cadastro de Produto:
+
+Preencher os campos de código, nome, preço e quantidade.
+Clicar no botão "Cadastrar".
+O sistema valida os campos e realiza o cadastro, atualizando a tabela de produtos.
+
+
+Edição de Produto:
+
+Selecionar um produto na tabela.
+Preencher os campos necessários.
+Clicar no botão "Editar".
+O sistema realiza a atualização das informações do produto.
+
+
+Exclusão de Produto:
+
+Selecionar um produto na tabela.
+Clicar no botão "Excluir".
+O sistema remove o produto selecionado da tabela e do banco de dados.
+
+
+Observações:
+
+A tabela de produtos é atualizada automaticamente sempre que um novo produto é cadastrado ou um existente é removido.
+Observações Finais
+Os módulos apresentados fornecem interfaces gráficas intuitivas para as operações de cadastro, controle de estoque e finalização de compra em um sistema de mercado. Utilizam o padrão MVC para organizar a interação entre a interface gráfica, a lógica de controle e os dados do sistema.
