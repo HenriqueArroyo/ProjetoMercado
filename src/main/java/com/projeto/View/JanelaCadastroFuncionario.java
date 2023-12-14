@@ -14,7 +14,6 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-import com.projeto.Connection.ClientesDAO;
 import com.projeto.Connection.FuncionariosDAO;
 import com.projeto.Controller.FuncionariosControl;
 import com.projeto.Model.Funcionario;
@@ -83,7 +82,7 @@ public class JanelaCadastroFuncionario extends JPanel {
             }
         });
 
-        FuncionariosControl operacoesFuncionarios = new FuncionariosControl(null, tableModel, table);
+        FuncionariosControl operacoesFuncionarios = new FuncionariosControl(funcionarios, tableModel, table);
 
         cadastrar.addActionListener(e -> {
             

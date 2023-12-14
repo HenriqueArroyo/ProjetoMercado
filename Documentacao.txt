@@ -200,5 +200,6 @@ O sistema remove o produto selecionado da tabela e do banco de dados.
 Observações:
 
 A tabela de produtos é atualizada automaticamente sempre que um novo produto é cadastrado ou um existente é removido.
+
 Observações Finais
 Os módulos apresentados fornecem interfaces gráficas intuitivas para as operações de cadastro, controle de estoque e finalização de compra em um sistema de mercado. Utilizam o padrão MVC para organizar a interação entre a interface gráfica, a lógica de controle e os dados do sistema.
