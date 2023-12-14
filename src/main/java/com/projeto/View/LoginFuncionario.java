@@ -60,14 +60,20 @@ public class LoginFuncionario extends JFrame {
         setVisible(true);
     }
 
-    private void realizarLogin() {
+    private boolean realizarLogin() {
         String cpf = cpfTextField.getText();
+        if (funcionariosControl.verificarCPF(cpf)==true) {
         JanelaPrincipal jp = new JanelaPrincipal();
         jp.setSize(800, 800);
         jp.setLocationRelativeTo(null);
         jp.setVisible(true);
-        funcionariosControl.verificarCPF(cpf);
         dispose();
+        funcionariosControl.verificarCPF(cpf);
+        JOptionPane.showMessageDialog(null, "Seja bem-vindo, portador do CPF: " + cpf);
+        return true;
+        } else{
+            return false;
+        }
     }
 
     public static void main(String[] args) {

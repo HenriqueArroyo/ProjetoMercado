@@ -55,15 +55,11 @@ public class FuncionariosControl {
         // Chama o método de exclusão no banco de dados
         atualizarTabela(); // Atualiza a tabela de exibição após a exclusão
     }
-     // Método para verificar se o CPF existe
-     public boolean verificarCPF(String cpf) {
+
+    // Método para verificar se o CPF existe
+    public boolean verificarCPF(String cpf) {
         FuncionariosDAO funcionariosDAO = new FuncionariosDAO();
         if (funcionariosDAO.verificarCPFExistente(cpf)) {
-            // Lógica para login bem-sucedido
-            LoginFuncionario loginFuncionario = new LoginFuncionario();
-            loginFuncionario.dispose();
-
-            JOptionPane.showMessageDialog(null, "Seja bem-vindo, portador do CPF: " + cpf);
             return true;
         } else {
             // Lógica para login falhado
