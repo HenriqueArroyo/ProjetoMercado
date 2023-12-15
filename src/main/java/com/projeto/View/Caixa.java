@@ -19,8 +19,8 @@ import com.projeto.Model.Estoque;
 public class Caixa extends JPanel {
     // Componentes da interface gráfica
     private JTextField inputCPF, valorFinal, quantidadeDeItens, inputProduto;
-    private JButton compraButton, adicionaProduto, verificaCPF, listaProdutos;
-    private JPanel mainPanel, cpfPanel, buttonPanel, produtoPanel, totalPanel;
+    private JButton compraButton, adicionaProduto, verificaCPF, listaProdutos, atualizarCliente;
+    private JPanel mainPanel, cpfPanel, buttonPanel, produtoPanel, totalPanel ;
     private JLabel clienteVIP;
     private DefaultTableModel tableModel;
     private JTable table;
@@ -66,6 +66,7 @@ public class Caixa extends JPanel {
         adicionaProduto = new JButton("Adicionar Produtos");
         compraButton = new JButton("Finalizar Compra");
         verificaCPF = new JButton("Verificação Cliente (CPF)");
+        atualizarCliente = new JButton("Atualizar Cliente");
         listaProdutos = new JButton("Exibir Produtos");
         String[] metodosPagamento = { "Dinheiro", "Crédito", "Débito" };
         metodoPagamentoComboBox = new JComboBox<>(metodosPagamento);
@@ -81,6 +82,8 @@ public class Caixa extends JPanel {
         clienteVIP.setForeground(Color.black);
         verificaCPF.setBackground(Color.WHITE);
         verificaCPF.setForeground(Color.black);
+        atualizarCliente.setBackground(Color.WHITE);
+        atualizarCliente.setForeground(Color.black);
     }
 
     // Configura o layout da interface
@@ -92,6 +95,7 @@ public class Caixa extends JPanel {
         nomesClientesComNulo[0] = "Sem Cadastro";
         System.arraycopy(nomesClientes, 0, nomesClientesComNulo, 1, nomesClientes.length);
         clienteComboBox = new JComboBox<>(nomesClientesComNulo);
+        cpfPanel.add(atualizarCliente);
         cpfPanel.add(clienteComboBox);
         cpfPanel.add(metodoPagamentoComboBox);
         tableModel = new DefaultTableModel(new Object[][] {},
@@ -157,6 +161,11 @@ public class Caixa extends JPanel {
         listaProdutos.addActionListener(e -> {
             listarProdutos();
         });
+
+ atualizarCliente.addActionListener(e -> {
+            atualizarClientes();
+        });
+
     }
 
     // Configura a janela principal
@@ -251,6 +260,15 @@ public class Caixa extends JPanel {
             tableModel.addRow(
                     new Object[] { compra.getNomeDoProduto(), compra.getQuantidadeCompra(), compra.getPrecoCompra() });
         }
+    }
+
+    private void atualizarClientes() {
+        clientes = new ClientesDAO().listarTodos();
+        String[] nomesClientes = clientes.stream().map(Cliente::getNome).toArray(String[]::new);
+        String[] nomesClientesComNulo = new String[nomesClientes.length + 1];
+        nomesClientesComNulo[0] = "Sem Cadastro";
+        System.arraycopy(nomesClientes, 0, nomesClientesComNulo, 1, nomesClientes.length);
+        clienteComboBox.setModel(new DefaultComboBoxModel<>(nomesClientesComNulo));
     }
 
     // Exibe a lista de produtos em uma janela separada

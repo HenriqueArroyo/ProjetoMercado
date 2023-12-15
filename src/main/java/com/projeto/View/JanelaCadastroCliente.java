@@ -106,7 +106,16 @@ public class JanelaCadastroCliente extends JPanel {
             }
         });
         apagar.addActionListener(e -> {
-            operacoesClientes.apagar(clienteNomeField.getText());
+            int res = JOptionPane.showConfirmDialog(null, "Deseja excluir esta Conta?",
+            "Excluir", JOptionPane.YES_NO_OPTION);
+    if (res == JOptionPane.YES_OPTION) {
+        operacoesClientes.apagar((clienteCpfField.getText()));
+        clienteCpfField.setText("");
+        clienteNomeField.setText("");
+        clienteDataNascimentoField.setText("");
+        clienteTelefoneField.setText("");
+    }
+            atualizarTabela();
         });
     }
 

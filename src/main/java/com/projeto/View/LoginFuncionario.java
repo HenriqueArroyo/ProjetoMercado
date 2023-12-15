@@ -28,7 +28,7 @@ public class LoginFuncionario extends JFrame {
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.insets = new Insets(5, 5, 5, 5); // Espaçamento
 
-        JLabel cpfLabel = new JLabel("Digite o CPF:");
+        JLabel cpfLabel = new JLabel("Digite o CPF (Admin: 0000):");
         cpfTextField = new JTextField(15);
         JButton loginButton = new JButton("Login");
 
@@ -62,26 +62,27 @@ public class LoginFuncionario extends JFrame {
 
     private boolean realizarLogin() {
         String cpf = cpfTextField.getText();
-        if (funcionariosControl.verificarCPF(cpf)==true) {
-        JanelaPrincipal jp = new JanelaPrincipal();
-        jp.setSize(800, 800);
-        jp.setLocationRelativeTo(null);
-        jp.setVisible(true);
-        dispose();
-        funcionariosControl.verificarCPF(cpf);
-        JOptionPane.showMessageDialog(null, "Seja bem-vindo, portador do CPF: " + cpf);
-        return true;
-        } else{
+        
+        if (funcionariosControl.verificarCPF(cpf)) {
+            JanelaPrincipal jp = new JanelaPrincipal();
+            jp.setSize(800, 800);
+            jp.setLocationRelativeTo(null);
+            jp.setVisible(true);
+            dispose();
+            JOptionPane.showMessageDialog(null, "Seja bem-vindo, portador do CPF: " + cpf);
+            return true;
+        } else if ("0000".equals(cpf)) {  // Comparação de strings usando equals
+            JanelaPrincipal jp = new JanelaPrincipal();
+            jp.setSize(800, 800);
+            jp.setLocationRelativeTo(null);
+            jp.setVisible(true);
+            dispose();
+            JOptionPane.showMessageDialog(null, "Seja bem-vindo, Administrador: " + cpf);
+            return true;
+        } else {
             return false;
         }
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new LoginFuncionario();
-            }
-        });
-    }
+   
 }
